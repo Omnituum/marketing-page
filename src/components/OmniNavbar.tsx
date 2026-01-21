@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Shield } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { PilotModal } from './PilotModal';
 
 export function OmniNavbar() {
@@ -28,11 +28,12 @@ export function OmniNavbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#hero" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-omni-violet to-omni-indigo flex items-center justify-center">
-              <Shield className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">Omni</span>
+          <a href="#hero" className="flex items-center">
+            <img
+              src="/omnituum-icon-phase-1-transparent-text-only.png"
+              alt="Omnituum"
+              className="h-10 md:h-12 w-auto"
+            />
           </a>
 
           {/* Desktop Nav */}
