@@ -59,22 +59,23 @@ export function OmniHero() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href="#technology"
-              className="omni-btn omni-btn-lg text-gray-400 hover:text-white
-                        font-medium transition-colors"
+              href="https://demo.omnituum.com"
+              className="omni-btn omni-btn-lg bg-omni-teal/20 hover:bg-omni-teal/30
+                         text-omni-teal hover:text-white border border-omni-teal/30
+                         font-medium transition-colors"
             >
-              Technical Overview
-              <ChevronDown className="w-4 h-4 opacity-60" />
+              Launch PQC Studio
+              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
           {/* Quick links */}
           <div className="flex items-center justify-center gap-6 text-sm">
             <a
-              href="https://demo.omnituum.com"
-              className="text-omni-teal hover:text-white transition-colors"
+              href="#technology"
+              className="text-gray-400 hover:text-white transition-colors"
             >
-              Try the Demo
+              Technical Overview
             </a>
             <a
               href="https://github.com/omnituum/pqc-shared"
