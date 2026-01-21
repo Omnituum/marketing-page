@@ -10,22 +10,41 @@ export function openExternal(url: string): void {
 
 /**
  * Open mailto link - uses user's configured email handler
- * (Gmail web handler, Outlook, local mail app, etc.)
- * Works across all browsers
+ * Uses window.open for more predictable cross-browser behavior
  */
 export function openMailto(opts: {
   to: string;
   subject?: string;
   body?: string;
 }): void {
+  // Build query string manually to avoid double-encoding issues
+  const parts: string[] = [];
+  if (opts.subject) parts.push(`subject=${encodeURIComponent(opts.subject)}`);
+  if (opts.body) parts.push(`body=${encodeURIComponent(opts.body)}`);
+
+  const queryString = parts.length > 0 ? `?${parts.join('&')}` : '';
+  const href = `mailto:${opts.to}${queryString}`;
+
+  // Use window.open - more reliable than location.href for mailto
+  window.open(href, '_self');
+}
+
+/**
+ * Open Gmail compose directly (bypasses system mailto handler)
+ * Useful when user prefers Gmail but system default is different
+ */
+export function openGmailCompose(opts: {
+  to: string;
+  subject?: string;
+  body?: string;
+}): void {
   const params = new URLSearchParams();
-  if (opts.subject) params.set('subject', opts.subject);
+  params.set('to', opts.to);
+  if (opts.subject) params.set('su', opts.subject);
   if (opts.body) params.set('body', opts.body);
 
-  const queryString = params.toString();
-  const href = `mailto:${encodeURIComponent(opts.to)}${queryString ? `?${queryString}` : ''}`;
-
-  window.location.href = href;
+  const href = `https://mail.google.com/mail/?view=cm&${params.toString()}`;
+  window.open(href, '_blank', 'noopener,noreferrer');
 }
 
 /**

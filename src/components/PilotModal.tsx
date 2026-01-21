@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Package, Code2, Headphones, FileText, ShieldCheck, Target, AlertTriangle, Database, DollarSign, Calendar, ArrowRight, Mail } from 'lucide-react';
 import { getPreferredAction } from '../lib/userPrefs';
-import { openExternal, openMailto, recordPreference, CONTACT_CONFIG, EMAIL_TEMPLATES } from '../lib/actions';
+import { openExternal, openMailto, openGmailCompose, recordPreference, CONTACT_CONFIG, EMAIL_TEMPLATES } from '../lib/actions';
 
 interface PilotModalProps {
   isOpen: boolean;
@@ -88,6 +88,17 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
 
   const handleSendEmail = () => {
     recordPreference('email');
+    // Use Gmail compose directly - more reliable than mailto handler
+    openGmailCompose({
+      to: CONTACT_CONFIG.email,
+      subject: EMAIL_TEMPLATES.evaluationCall.subject,
+      body: EMAIL_TEMPLATES.evaluationCall.body,
+    });
+  };
+
+  const handleSendEmailDefault = () => {
+    recordPreference('email');
+    // Use system default email handler (mailto)
     openMailto({
       to: CONTACT_CONFIG.email,
       subject: EMAIL_TEMPLATES.evaluationCall.subject,
