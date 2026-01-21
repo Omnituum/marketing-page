@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Package, Code2, Headphones, FileText, ShieldCheck, Target, AlertTriangle, Database, DollarSign, Calendar, ArrowRight } from 'lucide-react';
 
 interface PilotModalProps {
@@ -87,19 +88,28 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
     window.location.href = `mailto:pilot@omnituum.com?subject=${subject}&body=${body}`;
   };
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  // Render via portal to avoid parent overflow/transform issues
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-6"
+      role="dialog"
+      aria-modal="true"
+    >
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto
-                      bg-omni-dark border border-gray-800 rounded-2xl shadow-2xl">
-        {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between p-6
+      {/* Modal - proper internal scroll structure */}
+      <div
+        className="relative w-full max-w-4xl max-h-[85vh] flex flex-col
+                   bg-omni-dark border border-gray-800 rounded-2xl shadow-2xl overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header - fixed at top */}
+        <div className="flex-shrink-0 flex items-center justify-between p-6
                         bg-omni-dark border-b border-gray-800/50">
           <div>
             <h2 className="text-2xl font-bold text-white">Pilot Program</h2>
@@ -111,13 +121,14 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-white transition-colors rounded-lg
                        hover:bg-gray-800/50"
+            aria-label="Close modal"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
+        {/* Scrollable content area */}
+        <div className="flex-1 overflow-y-auto p-6">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Left: What You Get */}
             <div>
@@ -174,29 +185,6 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
             </div>
           </div>
 
-          {/* CTA */}
-          <div className="mt-8 pt-6 border-t border-gray-800/50">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <p className="text-gray-400 text-sm">
-                  Ready to evaluate Omni for your infrastructure?
-                </p>
-                <p className="text-gray-500 text-xs mt-1">
-                  20-minute introductory call to discuss your requirements
-                </p>
-              </div>
-              <button
-                onClick={handleScheduleCall}
-                className="flex items-center gap-2 px-6 py-3 bg-omni-violet hover:bg-omni-violet/80
-                           text-white font-medium rounded-xl transition-colors whitespace-nowrap"
-              >
-                <Calendar className="w-5 h-5" />
-                Schedule Evaluation Call
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
           {/* Additional note */}
           <div className="mt-6 p-4 rounded-lg bg-omni-violet/5 border border-omni-violet/10">
             <p className="text-gray-400 text-xs text-center">
@@ -205,7 +193,31 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
             </p>
           </div>
         </div>
+
+        {/* Footer CTA - fixed at bottom */}
+        <div className="flex-shrink-0 p-6 border-t border-gray-800/50 bg-omni-dark">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <p className="text-gray-400 text-sm">
+                Ready to evaluate Omni for your infrastructure?
+              </p>
+              <p className="text-gray-500 text-xs mt-1">
+                20-minute introductory call to discuss your requirements
+              </p>
+            </div>
+            <button
+              onClick={handleScheduleCall}
+              className="flex items-center gap-2 px-6 py-3 bg-omni-violet hover:bg-omni-violet/80
+                         text-white font-medium rounded-xl transition-colors whitespace-nowrap"
+            >
+              <Calendar className="w-5 h-5" />
+              Schedule Evaluation Call
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
