@@ -11,7 +11,7 @@ export function OmniFooter() {
               <img
                 src="/omnituum-icon-phase-1-transparent-text-only.png"
                 alt="Omnituum"
-                className="h-10 w-auto"
+                className="h-12 w-auto"
               />
             </div>
             <p className="text-gray-400 text-sm mb-4 max-w-md">
