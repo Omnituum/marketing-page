@@ -1,5 +1,50 @@
 import { useEffect, useRef, useState } from 'react';
 
+/**
+ * OmniBackground - Shared visual foundation for Omnituum pages
+ *
+ * Variants:
+ * - marketing: Deeper gradients, hexagonal lattice, security pulses (architectural)
+ * - demo: Darker, flatter, minimal motion (controlled lab environment)
+ */
+
+interface OmniBackgroundProps {
+  variant?: 'marketing' | 'demo';
+}
+
+// Shared color tokens
+const COLORS = {
+  background: {
+    start: '#050507',
+    mid: '#08080d',
+    end: '#050507',
+  },
+  node: { r: 109, g: 40, b: 217 }, // Deep violet
+  pulseStart: { r: 79, g: 70, b: 229 }, // Indigo
+  pulseEnd: { r: 13, g: 148, b: 136 }, // Muted teal
+  // Demo variant - muted versions
+  demoNode: { r: 139, g: 92, b: 246 }, // pqc-500
+  demoAccent: { r: 6, g: 182, b: 212 }, // classical-500
+};
+
+// Shared timing tokens
+const TIMING = {
+  marketing: {
+    pulseInterval: 12000,
+    pulseDuration: 3500,
+    driftCycle: 200000,
+    driftAmplitudeX: 10,
+    driftAmplitudeY: 15,
+  },
+  demo: {
+    pulseInterval: 0, // No pulses
+    pulseDuration: 0,
+    driftCycle: 300000, // Slower drift
+    driftAmplitudeX: 5,
+    driftAmplitudeY: 8,
+  },
+};
+
 interface HexNode {
   x: number;
   y: number;
@@ -15,10 +60,13 @@ interface SecurityPulse {
   duration: number;
 }
 
-export function OmniBackground() {
+export function OmniBackground({ variant = 'marketing' }: OmniBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  const timing = TIMING[variant];
+  const isDemo = variant === 'demo';
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -47,13 +95,12 @@ export function OmniBackground() {
     resize();
     window.addEventListener('resize', resize);
 
-    // Omni colors - deeper violet/indigo palette
-    const nodeColor = { r: 109, g: 40, b: 217 }; // Deep violet
-    const pulseColorStart = { r: 79, g: 70, b: 229 }; // Indigo
-    const pulseColorEnd = { r: 13, g: 148, b: 136 }; // Muted teal
+    const nodeColor = isDemo ? COLORS.demoNode : COLORS.node;
+    const pulseColorStart = COLORS.pulseStart;
+    const pulseColorEnd = COLORS.pulseEnd;
 
     // Build deterministic hexagonal grid
-    const hexRadius = 70; // Slightly larger spacing for security feel
+    const hexRadius = isDemo ? 80 : 70; // Larger spacing for demo (less dense)
     const hexHeight = hexRadius * Math.sqrt(3);
     const nodes: HexNode[] = [];
     const nodeMap: Map<string, number> = new Map();
@@ -89,13 +136,13 @@ export function OmniBackground() {
       });
     });
 
-    // Security pulse state - slower, more deliberate
+    // Security pulse state (marketing only)
     let activePulse: SecurityPulse | null = null;
     let lastPulseTime = 0;
-    const pulseInterval = 12000; // 12 seconds between pulses (slower)
-    const pulseDuration = 3500; // 3.5 seconds per pulse (longer)
 
     const triggerPulse = (time: number) => {
+      if (isDemo) return; // No pulses in demo variant
+
       const eligibleNodes = nodes.filter(n =>
         n.x > width * 0.2 && n.x < width * 0.8 &&
         n.y > height * 0.3 && n.y < height * 0.7
@@ -110,26 +157,27 @@ export function OmniBackground() {
         x: node.x,
         y: node.y,
         startTime: time,
-        duration: pulseDuration,
+        duration: timing.pulseDuration,
       };
       lastPulseTime = time;
     };
-
-    // Slower drift for more serious feel
-    const driftCycleDuration = 200000; // 200 seconds
-    const driftAmplitudeX = 10;
-    const driftAmplitudeY = 15;
 
     let startTime = performance.now();
 
     const draw = (currentTime: number) => {
       const elapsed = currentTime - startTime;
 
-      // Deeper gradient background
+      // Background gradient - darker for demo
       const gradient = ctx.createLinearGradient(0, 0, 0, height);
-      gradient.addColorStop(0, '#050507');
-      gradient.addColorStop(0.5, '#08080d');
-      gradient.addColorStop(1, '#050507');
+      if (isDemo) {
+        gradient.addColorStop(0, '#050810');
+        gradient.addColorStop(0.5, '#080c14');
+        gradient.addColorStop(1, '#050810');
+      } else {
+        gradient.addColorStop(0, COLORS.background.start);
+        gradient.addColorStop(0.5, COLORS.background.mid);
+        gradient.addColorStop(1, COLORS.background.end);
+      }
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
@@ -137,17 +185,18 @@ export function OmniBackground() {
       let driftX = 0;
       let driftY = 0;
       if (!prefersReducedMotion) {
-        const driftProgress = (elapsed % driftCycleDuration) / driftCycleDuration;
+        const driftProgress = (elapsed % timing.driftCycle) / timing.driftCycle;
         const driftAngle = driftProgress * Math.PI * 2;
-        driftX = Math.sin(driftAngle) * driftAmplitudeX;
-        driftY = Math.cos(driftAngle * 0.7) * driftAmplitudeY;
+        driftX = Math.sin(driftAngle) * timing.driftAmplitudeX;
+        driftY = Math.cos(driftAngle * 0.7) * timing.driftAmplitudeY;
       }
 
       ctx.save();
       ctx.translate(driftX, driftY);
 
-      // Draw connection lines - even more subtle
-      ctx.strokeStyle = `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, 0.05)`;
+      // Draw connection lines - more subtle for demo
+      const lineOpacity = isDemo ? 0.03 : 0.05;
+      ctx.strokeStyle = `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, ${lineOpacity})`;
       ctx.lineWidth = 0.5;
       ctx.beginPath();
       nodes.forEach((node) => {
@@ -160,12 +209,14 @@ export function OmniBackground() {
       ctx.stroke();
 
       // Draw nodes
+      const baseOpacity = isDemo ? 0.08 : 0.12;
+      const baseRadius = isDemo ? 1.2 : 1.5;
+
       nodes.forEach((node) => {
-        let opacity = 0.12;
-        let radius = 1.5;
+        let opacity = baseOpacity;
         let glowRadius = 0;
 
-        if (activePulse && !prefersReducedMotion) {
+        if (activePulse && !prefersReducedMotion && !isDemo) {
           const pulseElapsed = currentTime - activePulse.startTime;
           if (pulseElapsed < activePulse.duration) {
             const pulseProgress = pulseElapsed / activePulse.duration;
@@ -175,13 +226,13 @@ export function OmniBackground() {
             if (dist < pulseRadius && dist > pulseRadius - 45) {
               const intensity = 1 - Math.abs(dist - (pulseRadius - 22)) / 22;
               const fade = 1 - pulseProgress;
-              opacity = 0.12 + intensity * fade * 0.5;
+              opacity = baseOpacity + intensity * fade * 0.5;
               glowRadius = intensity * fade * 8;
             }
           }
         }
 
-        if (glowRadius > 0) {
+        if (glowRadius > 0 && !isDemo) {
           const glow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowRadius);
           const pulseProgress = activePulse ? (currentTime - activePulse.startTime) / activePulse.duration : 0;
           const r = Math.round(pulseColorStart.r + (pulseColorEnd.r - pulseColorStart.r) * pulseProgress);
@@ -196,13 +247,13 @@ export function OmniBackground() {
         }
 
         ctx.beginPath();
-        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, baseRadius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, ${opacity})`;
         ctx.fill();
       });
 
-      // Draw security pulse ring
-      if (activePulse && !prefersReducedMotion) {
+      // Draw security pulse ring (marketing only)
+      if (activePulse && !prefersReducedMotion && !isDemo) {
         const pulseElapsed = currentTime - activePulse.startTime;
         if (pulseElapsed < activePulse.duration) {
           const pulseProgress = pulseElapsed / activePulse.duration;
@@ -238,24 +289,29 @@ export function OmniBackground() {
 
       ctx.restore();
 
-      if (!prefersReducedMotion && currentTime - lastPulseTime > pulseInterval && !activePulse) {
+      // Trigger new pulse (marketing only)
+      if (!prefersReducedMotion && !isDemo && timing.pulseInterval > 0 && currentTime - lastPulseTime > timing.pulseInterval && !activePulse) {
         triggerPulse(currentTime);
       }
 
-      // Stronger vignette for security feel
+      // Vignette - stronger for demo (more controlled feel)
+      const vignetteStrength = isDemo ? 0.5 : 0.4;
       const vignette = ctx.createRadialGradient(
         width / 2, height / 2, height * 0.25,
         width / 2, height / 2, height * 0.85
       );
       vignette.addColorStop(0, 'transparent');
-      vignette.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
+      vignette.addColorStop(1, `rgba(0, 0, 0, ${vignetteStrength})`);
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, width, height);
 
       animationRef.current = requestAnimationFrame(draw);
     };
 
-    setTimeout(() => triggerPulse(performance.now()), 3000);
+    // Initial pulse (marketing only)
+    if (!isDemo) {
+      setTimeout(() => triggerPulse(performance.now()), 3000);
+    }
 
     animationRef.current = requestAnimationFrame(draw);
 
@@ -266,13 +322,13 @@ export function OmniBackground() {
         animationRef.current = null;
       }
     };
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, variant, isDemo, timing]);
 
   return (
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ background: '#050507' }}
+      style={{ background: isDemo ? '#050810' : '#050507' }}
       aria-hidden="true"
     />
   );
