@@ -1,3 +1,4 @@
+// Run: pnpm add -D sharp png-to-ico (if not installed)
 import sharp from 'sharp';
 import pngToIco from 'png-to-ico';
 import { writeFileSync } from 'fs';
