@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Package, Code2, Headphones, FileText, ShieldCheck, Target, AlertTriangle, Database, DollarSign, Calendar, ArrowRight } from 'lucide-react';
+import { X, Package, Code2, Headphones, FileText, ShieldCheck, Target, AlertTriangle, Database, DollarSign, Calendar, ArrowRight, Mail } from 'lucide-react';
+import { getPreferredAction } from '../lib/userPrefs';
+import { openExternal, openMailto, recordPreference, CONTACT_CONFIG, EMAIL_TEMPLATES } from '../lib/actions';
 
 interface PilotModalProps {
   isOpen: boolean;
@@ -74,18 +76,23 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
     };
   }, [isOpen, onClose]);
 
+  // Get user's preferred action (defaults to 'call' for enterprise)
+  const preferred = useMemo(() => getPreferredAction(), []);
+
   if (!isOpen) return null;
 
   const handleScheduleCall = () => {
-    const subject = encodeURIComponent('Omni Pilot Evaluation Call Request');
-    const body = encodeURIComponent(
-      `I'd like to schedule a 20-minute evaluation call to discuss:\n\n` +
-      `- Target Environment: \n` +
-      `- Use Case: \n` +
-      `- Timeline: \n\n` +
-      `Please let me know your availability.`
-    );
-    window.location.href = `mailto:pilot@omnituum.com?subject=${subject}&body=${body}`;
+    recordPreference('call');
+    openExternal(CONTACT_CONFIG.scheduleUrl);
+  };
+
+  const handleSendEmail = () => {
+    recordPreference('email');
+    openMailto({
+      to: CONTACT_CONFIG.email,
+      subject: EMAIL_TEMPLATES.evaluationCall.subject,
+      body: EMAIL_TEMPLATES.evaluationCall.body,
+    });
   };
 
   // Render via portal to avoid parent overflow/transform issues
@@ -202,18 +209,52 @@ export function PilotModal({ isOpen, onClose }: PilotModalProps) {
                 Ready to evaluate Omni for your infrastructure?
               </p>
               <p className="text-gray-500 text-xs mt-1">
-                20-minute introductory call to discuss your requirements
+                Schedule a call or send us your requirements
               </p>
             </div>
-            <button
-              onClick={handleScheduleCall}
-              className="flex items-center gap-2 px-6 py-3 bg-omni-violet hover:bg-omni-violet/80
-                         text-white font-medium rounded-xl transition-colors whitespace-nowrap"
-            >
-              <Calendar className="w-5 h-5" />
-              Schedule Evaluation Call
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex flex-wrap gap-3">
+              {preferred === 'call' ? (
+                <>
+                  <button
+                    onClick={handleScheduleCall}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-omni-violet hover:bg-omni-violet/80
+                               text-white font-medium rounded-xl transition-colors whitespace-nowrap"
+                  >
+                    <Calendar className="w-4 h-4" />
+                    Schedule Call
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={handleSendEmail}
+                    className="flex items-center gap-2 px-5 py-2.5 border border-gray-700 hover:border-gray-600
+                               text-gray-300 hover:text-white font-medium rounded-xl transition-colors whitespace-nowrap"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Send Email
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleSendEmail}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-omni-violet hover:bg-omni-violet/80
+                               text-white font-medium rounded-xl transition-colors whitespace-nowrap"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Send Email
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={handleScheduleCall}
+                    className="flex items-center gap-2 px-5 py-2.5 border border-gray-700 hover:border-gray-600
+                               text-gray-300 hover:text-white font-medium rounded-xl transition-colors whitespace-nowrap"
+                  >
+                    <Calendar className="w-4 h-4" />
+                    Schedule Call
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
