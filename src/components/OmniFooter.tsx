@@ -1,4 +1,4 @@
-import { Shield, Mail, ExternalLink } from 'lucide-react';
+import { Mail, ExternalLink } from 'lucide-react';
 
 export function OmniFooter() {
   return (
@@ -7,18 +7,19 @@ export function OmniFooter() {
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-omni-violet to-omni-indigo flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white">Omni</span>
+            <div className="mb-4">
+              <img
+                src="/omnituum-icon-phase-1-transparent-text-only.png"
+                alt="Omnituum"
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-gray-400 text-sm mb-4 max-w-md">
               Post-quantum cryptographic security for the modern web. End-to-end encryption
               with quantum-resistant keys — available through select pilot partnerships.
             </p>
             <p className="text-gray-500 text-xs">
-              Omni is the cryptographic security layer powering the{' '}
+              Omnituum is the cryptographic security layer powering the{' '}
               <a
                 href="https://loggie.io"
                 className="text-omni-violet hover:text-omni-indigo transition-colors"
@@ -132,11 +133,11 @@ export function OmniFooter() {
         {/* Legal clarity */}
         <div className="mb-8 text-center space-y-2">
           <p className="text-gray-600 text-xs max-w-2xl mx-auto">
-            Omni provides cryptographic software components implementing NIST-standardized algorithms.
+            Omnituum provides cryptographic software components implementing NIST-standardized algorithms.
             It is not itself FIPS-certified.
           </p>
           <p className="text-gray-600 text-xs max-w-2xl mx-auto">
-            Omni does not provide custodial services, data hosting, or access to user keys.
+            Omnituum does not provide custodial services, data hosting, or access to user keys.
           </p>
         </div>
 
