@@ -57,8 +57,7 @@ export function recordPreference(action: PreferredAction): void {
 // Centralized contact config
 export const CONTACT_CONFIG = {
   email: 'pilot@omnituum.com',
-  // Update this when you have a Cal.com/Calendly link
-  scheduleUrl: 'https://cal.com/omnituum/pilot',
+  scheduleUrl: 'https://cal.com/omnituum-pilot',
 } as const;
 
 // Pre-built email templates
