@@ -48,7 +48,15 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Build mailto link with form data
+    // Simulate brief processing delay then show success
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 300);
+  };
+
+  // Build mailto link for manual email option
+  const getMailtoLink = () => {
     const subject = encodeURIComponent('Omni Pilot Access Request');
     const body = encodeURIComponent(
       `Pilot Access Request\n\n` +
@@ -58,16 +66,7 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
       `Timeline: ${formData.timeline}\n` +
       `Compliance Requirements: ${formData.compliance.join(', ') || 'None specified'}\n`
     );
-
-    // Open mailto
-    window.location.href = `mailto:contact@omnituum.com?subject=${subject}&body=${body}`;
-
-    // Show confirmation after brief delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      onSuccess?.();
-    }, 500);
+    return `mailto:contact@omnituum.com?subject=${subject}&body=${body}`;
   };
 
   const handleComplianceChange = (value: string) => {
@@ -98,17 +97,31 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
           <CheckCircle className="w-8 h-8 text-green-400" />
         </div>
         <h3 className="text-xl font-bold text-white mb-4">
-          Request Received
+          Ready to Send
         </h3>
         <p className="text-gray-400 mb-6 max-w-sm mx-auto">
-          Thanks — we'll reply with an evaluation packet and pilot steps.
-          Optional NDA available for source code review.
+          Click below to open your email client with your request details pre-filled.
+        </p>
+        <a
+          href={getMailtoLink()}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-omni-violet/90 hover:bg-omni-violet
+                     text-white font-semibold rounded-lg transition-colors mb-4"
+        >
+          <ArrowRight className="w-5 h-5" />
+          Send Email
+        </a>
+        <p className="text-gray-500 text-sm mb-4">
+          Or email us directly at{' '}
+          <span className="text-gray-400">contact@omnituum.com</span>
         </p>
         <button
-          onClick={resetForm}
+          onClick={() => {
+            resetForm();
+            onSuccess?.();
+          }}
           className="text-omni-violet hover:text-omni-indigo transition-colors"
         >
-          Submit another request
+          Done
         </button>
       </div>
     );
