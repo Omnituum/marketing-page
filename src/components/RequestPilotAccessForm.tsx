@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, CheckCircle, Loader2 } from 'lucide-react';
+import { ArrowRight, CheckCircle, Loader2, Mail, Copy, Check } from 'lucide-react';
 
 const useCaseOptions = [
   { value: '', label: 'Select use case...' },
@@ -43,6 +43,7 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,18 +56,40 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
     }, 300);
   };
 
-  // Build mailto link for manual email option
+  // Build email content
+  const getEmailSubject = () => 'Omni Pilot Access Request';
+
+  const getEmailBody = () =>
+    `Pilot Access Request\n\n` +
+    `Email: ${formData.email}\n` +
+    `Company/Organization: ${formData.company}\n` +
+    `Use Case: ${formData.useCase}\n` +
+    `Timeline: ${formData.timeline}\n` +
+    `Compliance Requirements: ${formData.compliance.join(', ') || 'None specified'}`;
+
   const getMailtoLink = () => {
-    const subject = encodeURIComponent('Omni Pilot Access Request');
-    const body = encodeURIComponent(
-      `Pilot Access Request\n\n` +
-      `Email: ${formData.email}\n` +
-      `Company/Organization: ${formData.company}\n` +
-      `Use Case: ${formData.useCase}\n` +
-      `Timeline: ${formData.timeline}\n` +
-      `Compliance Requirements: ${formData.compliance.join(', ') || 'None specified'}\n`
-    );
+    const subject = encodeURIComponent(getEmailSubject());
+    const body = encodeURIComponent(getEmailBody());
     return `mailto:contact@omnituum.com?subject=${subject}&body=${body}`;
+  };
+
+  const handleCopyMessage = async () => {
+    const message = `Subject: ${getEmailSubject()}\n\n${getEmailBody()}`;
+    try {
+      await navigator.clipboard.writeText(message);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = message;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const handleComplianceChange = (value: string) => {
@@ -91,35 +114,62 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
 
   if (isSubmitted) {
     return (
-      <div className={`text-center ${compact ? 'py-8' : 'py-12'}`}>
-        <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20
-                        flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-green-400" />
+      <div className={`text-center ${compact ? 'py-6' : 'py-10'}`}>
+        <div className="w-14 h-14 rounded-full bg-green-500/10 border border-green-500/20
+                        flex items-center justify-center mx-auto mb-5">
+          <CheckCircle className="w-7 h-7 text-green-400" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-4">
+        <h3 className="text-xl font-bold text-white mb-2">
           Ready to Send
         </h3>
-        <p className="text-gray-400 mb-6 max-w-sm mx-auto">
-          Click below to open your email client with your request details pre-filled.
+        <p className="text-gray-400 text-sm mb-6 max-w-xs mx-auto">
+          Your request details are ready. Choose how to send:
         </p>
+
+        {/* Primary: Open Email Draft */}
         <a
           href={getMailtoLink()}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-omni-violet/90 hover:bg-omni-violet
-                     text-white font-semibold rounded-lg transition-colors mb-4"
+          className="flex items-center justify-center gap-2 w-full px-5 py-3
+                     bg-omni-violet hover:bg-omni-violet/90
+                     text-white font-semibold rounded-lg transition-colors mb-3"
         >
-          <ArrowRight className="w-5 h-5" />
-          Send Email
+          <Mail className="w-5 h-5" />
+          Open Email Draft
         </a>
-        <p className="text-gray-500 text-sm mb-4">
+
+        {/* Secondary: Copy Message */}
+        <button
+          onClick={handleCopyMessage}
+          className="flex items-center justify-center gap-2 w-full px-5 py-3
+                     bg-omni-dark border border-gray-700 hover:border-gray-600
+                     text-gray-300 hover:text-white font-medium rounded-lg transition-colors mb-5"
+        >
+          {copied ? (
+            <>
+              <Check className="w-5 h-5 text-green-400" />
+              <span className="text-green-400">Copied</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-5 h-5" />
+              Copy Message
+            </>
+          )}
+        </button>
+
+        {/* Tertiary: Direct email */}
+        <p className="text-gray-500 text-xs mb-4">
           Or email us directly at{' '}
-          <span className="text-gray-400">contact@omnituum.com</span>
+          <span className="text-gray-400 select-all">contact@omnituum.com</span>
         </p>
+
         <button
           onClick={() => {
             resetForm();
+            setCopied(false);
             onSuccess?.();
           }}
-          className="text-omni-violet hover:text-omni-indigo transition-colors"
+          className="text-omni-violet hover:text-omni-indigo transition-colors text-sm"
         >
           Done
         </button>
