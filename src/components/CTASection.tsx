@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { PilotModal } from './PilotModal';
+import { useRequestAccess } from '../context/RequestAccessContext';
 
 export function CTASection() {
-  const [pilotModalOpen, setPilotModalOpen] = useState(false);
+  const { handleRequestAccessClick } = useRequestAccess();
+
   return (
     <section className="relative omni-section-chapter overflow-hidden">
       {/* Atmospheric background */}
@@ -33,7 +33,7 @@ export function CTASection() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
           <button
-            onClick={() => setPilotModalOpen(true)}
+            onClick={handleRequestAccessClick}
             className="omni-btn omni-btn-lg bg-omni-violet/90 hover:bg-omni-violet
                        text-white font-semibold"
           >
@@ -54,9 +54,6 @@ export function CTASection() {
           Already running in production on the Loggie platform.
         </p>
       </div>
-
-      {/* Pilot Modal */}
-      <PilotModal isOpen={pilotModalOpen} onClose={() => setPilotModalOpen(false)} />
     </section>
   );
 }

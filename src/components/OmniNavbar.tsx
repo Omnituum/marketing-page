@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { PilotModal } from './PilotModal';
+import { useRequestAccess } from '../context/RequestAccessContext';
 
 export function OmniNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [pilotModalOpen, setPilotModalOpen] = useState(false);
+  const { handleRequestAccessClick } = useRequestAccess();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -52,7 +52,7 @@ export function OmniNavbar() {
           {/* CTA Button */}
           <div className="hidden md:block">
             <button
-              onClick={() => setPilotModalOpen(true)}
+              onClick={handleRequestAccessClick}
               className="px-6 py-2.5 bg-omni-violet hover:bg-omni-violet/80
                          text-white font-medium rounded-lg transition-all"
             >
@@ -85,9 +85,9 @@ export function OmniNavbar() {
               </a>
             ))}
             <button
-              onClick={() => {
+              onClick={(e) => {
                 setMobileMenuOpen(false);
-                setPilotModalOpen(true);
+                handleRequestAccessClick(e);
               }}
               className="block w-full text-center px-6 py-3 bg-omni-violet hover:bg-omni-violet/80
                          text-white font-medium rounded-lg transition-all mt-4"
@@ -98,8 +98,6 @@ export function OmniNavbar() {
         </div>
       )}
 
-      {/* Pilot Modal */}
-      <PilotModal isOpen={pilotModalOpen} onClose={() => setPilotModalOpen(false)} />
     </nav>
   );
 }

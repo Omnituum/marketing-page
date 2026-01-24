@@ -1,6 +1,9 @@
 import { Mail, ExternalLink } from 'lucide-react';
+import { useRequestAccess } from '../context/RequestAccessContext';
 
 export function OmniFooter() {
+  const { handleRequestAccessClick } = useRequestAccess();
+
   return (
     <footer className="relative py-16 bg-omni-black border-t border-gray-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +44,8 @@ export function OmniFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:pilot@omnituum.com"
+                  href="#request-access"
+                  onClick={handleRequestAccessClick}
                   className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
                 >
                   Contact
@@ -155,7 +159,8 @@ export function OmniFooter() {
                 Loggie
               </a>
               <a
-                href="mailto:pilot@omnituum.com"
+                href="#request-access"
+                onClick={handleRequestAccessClick}
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 <Mail className="w-5 h-5" />

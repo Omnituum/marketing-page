@@ -13,6 +13,7 @@ import { DevSection } from './DevSection';
 import { PilotSection } from './PilotSection';
 import { CTASection } from './CTASection';
 import { OmniFooter } from './OmniFooter';
+import { RequestAccessProvider } from '../context/RequestAccessContext';
 
 export default function OmniPage() {
   // Force dark mode and enable scroll for Omni page
@@ -26,23 +27,25 @@ export default function OmniPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-omni-black text-white overflow-x-hidden">
-      <OmniNavbar />
-      <main>
-        <OmniHero />
-        <ThreatSection />
-        <SolutionSection />
-        <SubstrateSection />
-        <WhySection />
-        <TechSection />
-        <HowItWorksSection />
-        <FeaturesSection />
-        <TrustSection />
-        <DevSection />
-        <PilotSection />
-        <CTASection />
-      </main>
-      <OmniFooter />
-    </div>
+    <RequestAccessProvider>
+      <div className="min-h-screen bg-omni-black text-white overflow-x-hidden">
+        <OmniNavbar />
+        <main>
+          <OmniHero />
+          <ThreatSection />
+          <SolutionSection />
+          <SubstrateSection />
+          <WhySection />
+          <TechSection />
+          <HowItWorksSection />
+          <FeaturesSection />
+          <TrustSection />
+          <DevSection />
+          <PilotSection />
+          <CTASection />
+        </main>
+        <OmniFooter />
+      </div>
+    </RequestAccessProvider>
   );
 }

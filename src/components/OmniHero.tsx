@@ -1,7 +1,10 @@
 import { ArrowRight, ChevronDown, ShieldCheck } from 'lucide-react';
 import { OmniBackground } from './shared/OmniBackground';
+import { useRequestAccess } from '../context/RequestAccessContext';
 
 export function OmniHero() {
+  const { handleRequestAccessClick } = useRequestAccess();
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
       {/* Procedural abstract background */}
@@ -50,14 +53,14 @@ export function OmniHero() {
 
           {/* CTAs - partnership focused, clearly separated from headline */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-10">
-            <a
-              href="#pilot"
+            <button
+              onClick={handleRequestAccessClick}
               className="omni-btn omni-btn-lg bg-omni-violet/90 hover:bg-omni-violet
                          text-white font-medium"
             >
               Request Pilot Access
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
             <a
               href="https://studio.omnituum.com"
               className="omni-btn omni-btn-lg bg-omni-teal/20 hover:bg-omni-teal/30
