@@ -76,7 +76,7 @@ export function SolutionSection() {
               <ArrowRight className="w-5 h-5 text-gray-600 rotate-90" />
             </div>
             <a
-              href="https://loggie.io"
+              href="https://loggielabs.com"
               className="px-6 py-4 rounded-xl bg-purple-500/10 border border-purple-500/20
                          hover:border-purple-500/40 transition-colors"
             >

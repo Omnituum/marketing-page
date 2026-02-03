@@ -24,7 +24,7 @@ export function OmniFooter() {
             <p className="text-gray-500 text-xs">
               Omnituum is the cryptographic security layer powering the{' '}
               <a
-                href="https://loggie.io"
+                href="https://loggielabs.com"
                 className="text-omni-violet hover:text-omni-indigo transition-colors"
               >
                 Loggie platform
@@ -153,7 +153,7 @@ export function OmniFooter() {
             </p>
             <div className="flex items-center gap-6">
               <a
-                href="https://loggie.io"
+                href="https://loggielabs.com"
                 className="text-gray-400 hover:text-white transition-colors text-sm"
               >
                 Loggie

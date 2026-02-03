@@ -43,7 +43,7 @@ export function OmniHero() {
           <p className="text-sm text-gray-500 mb-10">
             Omni powers the cryptographic security layer behind the{' '}
             <a
-              href="https://loggie.io"
+              href="https://loggielabs.com"
               className="text-omni-violet hover:text-omni-indigo transition-colors"
             >
               Loggie platform
