@@ -41,7 +41,7 @@ export function CTASection() {
             <ArrowRight className="w-5 h-5" />
           </button>
           <a
-            href="https://loggie.io"
+            href="https://loggielabs.com"
             className="omni-btn omni-btn-lg omni-card omni-card-interactive
                       text-white font-medium hover:border-white/20"
           >
