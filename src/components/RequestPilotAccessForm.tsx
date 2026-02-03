@@ -188,7 +188,6 @@ export function RequestPilotAccessForm({ onSuccess, compact = false }: RequestPi
           type="email"
           id="pilot-email"
           required
-          autoFocus
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="omni-form-input"
