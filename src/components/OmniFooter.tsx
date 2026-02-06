@@ -12,9 +12,9 @@ export function OmniFooter() {
           <div className="md:col-span-2">
             <div className="mb-4">
               <img
-                src="/omnituum-icon-phase-1-transparent-text-only.png"
+                src="/omnituum-with-tag-line-footer.png"
                 alt="Omnituum"
-                className="h-12 w-auto"
+                className="h-11 w-auto"
               />
             </div>
             <p className="text-gray-400 text-sm mb-4 max-w-md">

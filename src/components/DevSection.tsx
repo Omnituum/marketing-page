@@ -142,7 +142,7 @@ export function DevSection() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="/pqc-demo"
+              href="https://studio.omnituum.com/"
               className="px-5 py-2.5 text-sm font-medium text-omni-teal hover:text-white transition-colors border border-omni-teal/30 rounded-xl hover:bg-omni-teal/10"
             >
               PQC Demo App

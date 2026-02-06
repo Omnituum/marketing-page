@@ -30,9 +30,9 @@ export function OmniNavbar() {
           {/* Logo */}
           <a href="#hero" className="flex items-center">
             <img
-              src="/omnituum-icon-phase-1-transparent-text-only.png"
+              src="/omnituum-text-only-transparent.png"
               alt="Omnituum"
-              className="h-12 md:h-14 w-auto"
+              className="h-3 md:h-5 w-auto"
             />
           </a>
 
