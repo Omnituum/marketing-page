@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@omnituum/secure-intake-client':
-        specifier: file:../secure-intake-client
-        version: file:../secure-intake-client(typescript@5.9.3)
+        specifier: git+https://github.com/Omnituum/secure-intake-client.git#v0.1.1
+        version: https://codeload.github.com/Omnituum/secure-intake-client/tar.gz/d2483c5084c8d9038e154add5b2e059a3adeb6c4(typescript@5.9.3)
       lucide-react:
         specifier: ^0.462.0
         version: 0.462.0(react@18.3.1)
@@ -317,15 +317,12 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@omnituum/envelope-registry@file:../canonical-envelope-registry':
-    resolution: {directory: ../canonical-envelope-registry, type: directory}
-    engines: {node: '>=18'}
-
   '@omnituum/pqc-shared@0.3.1':
     resolution: {integrity: sha512-tA7QV3Y11LdOQ2vG78I/1z7AQ3EZ7rzIYcQ4FYlXvgnmoZpN8+yLN8bMqFh8iUUnF4HB+d/mpTICzuXOnMiAiw==}
 
-  '@omnituum/secure-intake-client@file:../secure-intake-client':
-    resolution: {directory: ../secure-intake-client, type: directory}
+  '@omnituum/secure-intake-client@https://codeload.github.com/Omnituum/secure-intake-client/tar.gz/d2483c5084c8d9038e154add5b2e059a3adeb6c4':
+    resolution: {tarball: https://codeload.github.com/Omnituum/secure-intake-client/tar.gz/d2483c5084c8d9038e154add5b2e059a3adeb6c4}
+    version: 0.1.0
     engines: {node: '>=18.0.0'}
     peerDependencies:
       typescript: '>=5.0.0'
@@ -1152,8 +1149,6 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@omnituum/envelope-registry@file:../canonical-envelope-registry': {}
-
   '@omnituum/pqc-shared@0.3.1':
     dependencies:
       '@noble/ciphers': 2.0.1
@@ -1163,12 +1158,9 @@ snapshots:
       kyber-crystals: 1.0.7
       tweetnacl: 1.0.3
 
-  '@omnituum/secure-intake-client@file:../secure-intake-client(typescript@5.9.3)':
+  '@omnituum/secure-intake-client@https://codeload.github.com/Omnituum/secure-intake-client/tar.gz/d2483c5084c8d9038e154add5b2e059a3adeb6c4(typescript@5.9.3)':
     dependencies:
-      '@noble/hashes': 2.0.1
-      '@omnituum/envelope-registry': file:../canonical-envelope-registry
       '@omnituum/pqc-shared': 0.3.1
-      tweetnacl: 1.0.3
     optionalDependencies:
       typescript: 5.9.3
 
