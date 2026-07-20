@@ -18,6 +18,7 @@ export function OmniNavbar() {
     { label: 'Threats', href: '#threats' },
     { label: 'Technology', href: '#technology' },
     { label: 'How It Works', href: '#how-it-works' },
+    { label: 'Ecosystem', href: '#ecosystem' },
     { label: 'Security', href: '#trust' },
   ];
 

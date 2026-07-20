@@ -1,11 +1,11 @@
-import { Cpu, Layers, ShieldCheck } from 'lucide-react';
+import { Cpu, Layers, PenLine, ShieldCheck } from 'lucide-react';
 
 const algorithms = [
   {
     icon: Cpu,
-    name: 'ML-KEM-768',
-    subtitle: 'Kyber',
-    description: 'NIST-standardized lattice-based key encapsulation mechanism. Quantum-resistant.',
+    name: 'ML-KEM-1024',
+    subtitle: 'Kyber · FIPS 203',
+    description: 'NIST-standardized lattice-based key encapsulation at the highest security level. Quantum-resistant.',
     badge: 'Post-Quantum',
   },
   {
@@ -19,8 +19,15 @@ const algorithms = [
     icon: ShieldCheck,
     name: 'Hybrid Mode',
     subtitle: 'Defense in Depth',
-    description: 'Both algorithms combined. If either remains secure, your data stays protected.',
+    description: 'Both key exchanges combined — an attacker must break both. If either remains secure, your data stays protected.',
     badge: 'Combined',
+  },
+  {
+    icon: PenLine,
+    name: 'ML-DSA-65',
+    subtitle: 'Dilithium · FIPS 204',
+    description: 'NIST-standardized lattice-based digital signatures for quantum-resistant authentication and attestation.',
+    badge: 'Post-Quantum',
   },
 ];
 
@@ -41,7 +48,7 @@ export function TechSection() {
         </div>
 
         {/* Spec cards - equal heights, title-first emphasis */}
-        <div className="omni-card-grid omni-card-grid-3">
+        <div className="omni-card-grid omni-card-grid-4">
           {algorithms.map((algo, index) => (
             <div
               key={index}

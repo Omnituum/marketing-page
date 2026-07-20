@@ -8,6 +8,7 @@ import { WhySection } from './WhySection';
 import { TechSection } from './TechSection';
 import { HowItWorksSection } from './HowItWorksSection';
 import { FeaturesSection } from './FeaturesSection';
+import { EcosystemSection } from './EcosystemSection';
 import { TrustSection } from './TrustSection';
 import { DevSection } from './DevSection';
 import { PilotSection } from './PilotSection';
@@ -39,6 +40,7 @@ export default function OmniPage() {
           <TechSection />
           <HowItWorksSection />
           <FeaturesSection />
+          <EcosystemSection />
           <TrustSection />
           <DevSection />
           <PilotSection />

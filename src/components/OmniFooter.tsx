@@ -88,7 +88,18 @@ export function OmniFooter() {
                 </a>
               </li>
               <li>
-                <span className="text-gray-400 text-sm">ML-KEM-768</span>
+                <a
+                  href="https://csrc.nist.gov/pubs/fips/204/final"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
+                >
+                  NIST FIPS 204
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
+              <li>
+                <span className="text-gray-400 text-sm">ML-KEM-1024 · ML-DSA-65</span>
               </li>
             </ul>
           </div>

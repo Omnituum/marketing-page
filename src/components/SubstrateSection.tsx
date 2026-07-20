@@ -42,7 +42,7 @@ const boundaryLayers = [
   },
   {
     label: 'Open Standards',
-    sublabel: '(ML-KEM, X25519, AEADs)',
+    sublabel: '(ML-KEM, ML-DSA, X25519, AEADs)',
     color: 'text-gray-500',
     bgClass: 'bg-[#08080b]/50',
     borderClass: 'border border-gray-800/30',

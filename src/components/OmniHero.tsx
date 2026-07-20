@@ -18,9 +18,9 @@ export function OmniHero() {
             <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full
                             bg-omni-violet/10 border border-omni-violet/20">
               <ShieldCheck className="w-4 h-4 text-omni-violet" />
-              <span className="text-sm text-gray-300">Implements NIST FIPS 203 (ML-KEM-768)</span>
+              <span className="text-sm text-gray-300">ML-KEM-1024 &amp; ML-DSA-65 — algorithms standardized in FIPS 203/204</span>
             </div>
-            <span className="text-xs text-gray-500">Pre-certification</span>
+            <span className="text-xs text-gray-500">Implementation not FIPS-validated</span>
           </div>
 
           {/* Headline - increased spacing below */}
@@ -97,7 +97,7 @@ export function OmniHero() {
               npm
             </a>
             <span className="text-gray-500 px-3 py-1.5 rounded-lg bg-omni-dark/50 border border-omni-indigo/10">
-              v0.2.6
+              v0.7.0
             </span>
           </div>
         </div>
