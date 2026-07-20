@@ -4,7 +4,7 @@ const features = [
   {
     icon: Cloud,
     title: 'Zero Infrastructure',
-    description: 'No servers to deploy, no cloud dependencies. Everything runs client-side.',
+    description: 'The browser core needs no servers or cloud dependencies. Server-side packages run in your infrastructure, under your keys.',
   },
   {
     icon: Globe,

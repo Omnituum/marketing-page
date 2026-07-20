@@ -4,7 +4,7 @@ const trustPoints = [
   {
     icon: KeyRound,
     title: 'No Custody',
-    description: 'Private keys are generated and stored only in your browser. We never see them.',
+    description: 'Browser identities are generated and stored on your device. Server-side keys live in your own environment or KMS — Omnituum never holds either.',
   },
   {
     icon: Timer,
