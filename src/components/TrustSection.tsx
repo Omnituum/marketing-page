@@ -25,7 +25,7 @@ const trustPoints = [
 
 export function TrustSection() {
   return (
-    <section id="trust" className="relative omni-section-primary bg-omni-black">
+    <section id="trust" className="relative omni-seam omni-section-primary bg-omni-black">
       <div className="relative z-10 omni-container">
         {/* Section header with eyebrow */}
         <div className="omni-section-header">

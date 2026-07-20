@@ -21,7 +21,7 @@ const pilotBenefits = [
 
 export function PilotSection() {
   return (
-    <section id="pilot" className="relative omni-section-primary bg-omni-black">
+    <section id="pilot" className="relative omni-seam omni-section-primary bg-omni-black">
       {/* Destination section - increased padding */}
       <div className="relative z-10 omni-container">
         {/* Section header with badge and eyebrow */}

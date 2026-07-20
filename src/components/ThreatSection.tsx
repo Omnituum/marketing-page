@@ -20,7 +20,7 @@ const threats = [
 
 export function ThreatSection() {
   return (
-    <section id="threats" className="relative omni-section-primary omni-substrate material-noise">
+    <section id="threats" className="relative omni-seam omni-section-primary omni-substrate material-noise">
       {/* Section separator top */}
       <div className="absolute top-0 left-0 right-0 omni-separator" />
 

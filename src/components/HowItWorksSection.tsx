@@ -11,7 +11,7 @@ const steps = [
     number: '02',
     icon: Lock,
     title: 'Encrypt Locally',
-    description: 'Hybrid encryption combines X25519 and ML-KEM-768 for maximum security.',
+    description: 'Hybrid encryption combines X25519 and ML-KEM-1024 for maximum security.',
   },
   {
     number: '03',
@@ -29,7 +29,7 @@ const steps = [
 
 export function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="relative omni-section-primary bg-omni-black omni-blueprint">
+    <section id="how-it-works" className="relative omni-seam omni-section-primary bg-omni-black omni-blueprint">
       <div className="relative z-10 omni-container">
         {/* Section header with eyebrow */}
         <div className="omni-section-header">

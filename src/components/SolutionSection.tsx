@@ -9,7 +9,7 @@ const steps = [
   {
     icon: Shield,
     label: 'Hybrid PQC Encryption',
-    description: 'X25519 + ML-KEM-768 combined',
+    description: 'X25519 + ML-KEM-1024 combined',
   },
   {
     icon: Lock,
@@ -20,7 +20,7 @@ const steps = [
 
 export function SolutionSection() {
   return (
-    <section className="relative omni-section-primary bg-omni-black">
+    <section className="relative omni-seam omni-section-primary bg-omni-black">
       <div className="omni-container">
         {/* Section header with eyebrow */}
         <div className="omni-section-header">

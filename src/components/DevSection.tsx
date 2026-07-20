@@ -28,7 +28,7 @@ export function DevSection() {
   };
 
   return (
-    <section id="developers" className="relative omni-section-primary omni-substrate material-noise">
+    <section id="developers" className="relative omni-seam omni-section-primary omni-substrate material-noise">
 
       <div className="relative z-10 omni-container omni-container-narrow">
         {/* Section header with eyebrow */}
